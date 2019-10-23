@@ -26,4 +26,5 @@ production:
   username: oka
   password: 
   host: localhost
+  port: 5432
   # database: db/production.sqlite3
