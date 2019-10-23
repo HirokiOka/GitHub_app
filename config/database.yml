@@ -22,4 +22,8 @@ test:
 
 production:
   <<: *default
-  database: db/production.sqlite3
+  adapter: postgresql
+  username: oka
+  password: 
+  host: localhost
+  # database: db/production.sqlite3
