@@ -14,4 +14,5 @@ Rails.application.routes.draw do
   get '/' => 'home#top'
   get '/about' => 'home#about'
   get '/quiz' => 'home#quiz'
+  post '/judge' => 'home#judge'
 end

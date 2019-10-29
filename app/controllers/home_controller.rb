@@ -10,4 +10,13 @@ class HomeController < ApplicationController
 
   def quiz
   end
+
+  def judge
+    if params[:answer] == 'JavaScript'
+      flash[:notice] = "正解です"
+    else
+      flash[:notice] = "チガウヨ"
+    end
+    redirect_to("/quiz")
+  end
 end
