@@ -29,6 +29,7 @@ class HomeController < ApplicationController
   def judge
     if params[:answer] == @@lang
       flash[:notice] = "正解です！"
+      #ログインしていたらscoreをプラスする処理
     else
       flash[:notice] = "正解は#{@@lang}でした！"
     end
