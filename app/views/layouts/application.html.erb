@@ -53,10 +53,12 @@
         </ul>
       </div>
     </header>
-
-    <% if flash[:notice] %>
-      <%= flash[:notice] %>
-    <% end %>
+      <% if flash[:notice] %>
+        <div class="flash">
+          <%= flash[:notice] %>
+        </div>
+      <% end %>
+    
     <div class="container">
       <%= yield %>
     </div>

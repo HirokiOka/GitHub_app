@@ -1,6 +1,7 @@
 <h1>ユーザー詳細</h1>
 <h2><%= @user.name%></h2>
-<p><%= @user.email %></p>
+<p>email:<%= @user.email %></p>
+<p>score:<%= @user.score %></p>
 <% if @user.id == @current_user.id %>
     <%= link_to("編集", "/users/#{@user.id}/edit") %>
 <% end %>

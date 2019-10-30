@@ -2,15 +2,12 @@
 <h2>このコードは何の言語で書かれているでしょうか?</h2>
 <p>
     <pre>
-        <code id="code">function hello() {
-            console.log("hello");
-        }
-        </code>
+        <code id="code"><%= @code %></code>
     </pre>
 </p>
 <h2>
     <%= form_tag("/judge") do %>
-        <p>回答：</p>
+        <p>回答</p>
         <input name="answer">
         <input type="submit" value="送信">
     <% end %>
