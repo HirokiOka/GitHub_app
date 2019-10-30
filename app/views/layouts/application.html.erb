@@ -7,7 +7,6 @@
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'prism' %>
     <%= stylesheet_link_tag 'prism'%>
     <!--[if lt IE 9]>
       <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/r29/html5.min.js">
@@ -63,6 +62,6 @@
     <div class="container">
       <%= yield %>
     </div>
-</body>
+    <%= javascript_include_tag 'prism' %>
   </body>
 </html>
