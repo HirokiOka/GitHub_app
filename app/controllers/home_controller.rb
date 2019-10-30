@@ -16,14 +16,23 @@ class HomeController < ApplicationController
     require 'json'
 
     url = 'https://api.github.com/gists/public?page=' + rand(10).to_s + '&per_page=1'
-
     res = Net::HTTP.get(URI.parse(url))
-    hash = JSON.parse(res)[0]
-    key_name = hash["files"].keys.first
-    raw_url = hash["files"][key_name]["raw_url"]
+    array = JSON.parse(res)
 
-    @@lang = hash["files"][key_name]["language"]
-    @code = Net::HTTP.get(URI.parse(raw_url))
+    lang = ""
+    code = ""
+
+    for element in array
+        filename = element["files"].keys.first
+        @@lang = element["files"][filename]["language"]
+        if lang != nil
+            @langClass = "language-" + @@lang.downcase
+            raw_url = element["files"][filename]["raw_url"]
+            @code = Net::HTTP.get(URI.parse(raw_url)).to_s.force_encoding('UTF-8')
+
+            break
+        end
+    end
   end
 
   def judge
