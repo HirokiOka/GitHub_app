@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_31_040747) do
+ActiveRecord::Schema.define(version: 2019_10_31_073721) do
 
   create_table "codes", force: :cascade do |t|
     t.text "language"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 2019_10_31_040747) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "password"
     t.integer "score", default: 0
+    t.string "favorite_lang"
   end
 
 end

@@ -1,8 +1,17 @@
 <h1>ランキング</h1>
-<h2>
-    <% @users.each_with_index do |user, i| %>
-        <%= (i+1).to_s + "位" %>
-        <%= link_to(user.name, "/users/#{user.id}") %>
-        <%= user.score.to_s + "pt" %><br>
-    <% end %>
-</h2>
+
+    <table border="1" align="center">
+        <tr>
+            <th>Rank</th>
+            <th>Name</th>
+            <th>Score</th>
+        </tr>
+        <% @users.each_with_index do |user, i| %>
+            <tr>
+                <th><%= (i+1).to_s  %></th>
+                <th><%= link_to(user.name, "/users/#{user.id}") %></th>
+                <th><%= user.score.to_s + "pt" %></th><br>
+            </tr>
+        <% end %>
+    </table>
+
