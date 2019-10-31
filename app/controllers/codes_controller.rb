@@ -26,7 +26,7 @@ class CodesController < ApplicationController
 
   private
   def is_programming_lang?(lang)
-    nonpro_lang = ['SVG', 'YAML', 'HTML', 'XML', 'JSON', 'Git', 'Text', 'Markdown']
+    nonpro_lang = ['SVG', 'YAML', 'HTML', 'XML', 'JSON', 'Git', 'Text', 'Markdown', 'Jupyter Notebook', 'Shell']
     for item in nonpro_lang
         if item == lang
             return false
