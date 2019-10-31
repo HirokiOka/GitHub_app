@@ -12,7 +12,7 @@ class HomeController < ApplicationController
 
   def quiz
     stock_length = Code.all.length
-    stock = Code.find_by(id: rand(stock_length))
+    stock = Code.find_by(id: rand(stock_length)+1)
     @@lang = stock.language
     @lang_class = 'language-' + @@lang.downcase
     @code = stock.code
