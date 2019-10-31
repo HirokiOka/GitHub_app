@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   before_action :ensure_correct_user, {only: [:edit, :update]}
 
   def index
-    @users = User.all
+    @users = User.all.order(score: :desc)
   end
 
   def show

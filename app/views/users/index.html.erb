@@ -1,4 +1,8 @@
-<h1>ユーザー一覧</h1>
-<% @users.each do |user| %>
-    <%= link_to(user.name, "/users/#{user.id}") %>
-<% end %>
+<h1>ランキング</h1>
+<h2>
+    <% @users.each_with_index do |user, i| %>
+        <%= (i+1).to_s + "位" %>
+        <%= link_to(user.name, "/users/#{user.id}") %>
+        <%= user.score.to_s + "pt" %><br>
+    <% end %>
+</h2>
