@@ -4,8 +4,8 @@ class CodesController < ApplicationController
     require 'uri'
     require 'json'
 
-    url = 'https://api.github.com/gists/public?page=' + rand(10).to_s + '&per_page=100'
-    res = Net::HTTP.get(URI.parse(url))
+    gist_url = 'https://api.github.com/gists/public?page=' + rand(10).to_s + '&per_page=100'
+    res = Net::HTTP.get(URI.parse(gist_url))
     array = JSON.parse(res)
 
     code = ''
@@ -18,8 +18,8 @@ class CodesController < ApplicationController
         if is_programming_lang?(language) && language != nil
             raw_url = item["files"][filename]["raw_url"]
             code = Net::HTTP.get(URI.parse(raw_url)).to_s.force_encoding('UTF-8')
-            code = hide_answer_lang(language, code)
-            Code.create(language: language, code: code)
+            html_url = item["html_url"]
+            Code.create(language: language, code: code, html_url: html_url)
         end
     end
   end
@@ -33,12 +33,5 @@ class CodesController < ApplicationController
         end
     end
     return true
-  end
-
-  def hide_answer_lang(lang, code)
-    if lang.length != 1
-      code = code.gsub(/#{lang}/i, '???')
-    end
-    return code
   end
 end

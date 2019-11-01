@@ -1,3 +1,5 @@
+<%= render 'layouts/lang', programming_lang: @programming_lang %>
+
 <h1>クイズ</h1>
 <h2>このコードは何の言語で書かれているでしょうか?</h2>
 <p>
@@ -8,7 +10,11 @@
 <h2>
     <%= form_tag("/judge") do %>
         <p>回答</p>
-        <input name="answer">
+        <select name="answer">
+            <% @programming_lang.each do |lang| %>
+                <option name="<% lang %>"><%=lang %></option>
+            <% end %>
+        </select>
         <input type="submit" value="送信">
     <% end %>
 </h2>

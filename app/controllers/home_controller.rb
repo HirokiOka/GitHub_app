@@ -15,7 +15,7 @@ class HomeController < ApplicationController
     stock = Code.find_by(id: rand(stock_length)+1)
     @@lang = stock.language
     @lang_class = 'language-' + @@lang.downcase
-    @code = stock.code
+    @code = hide_answer_lang(@@lang, stock.code)
   end
 
   def judge
@@ -31,5 +31,22 @@ class HomeController < ApplicationController
       flash[:notice] = "正解は#{@@lang}でした！"
     end
     redirect_to("/quiz")
+  end
+
+  def fortune_telling
+    stock_length = Code.all.length
+    stock = Code.find_by(id: rand(stock_length)+1)
+    @@lang = stock.language
+    @lang_class = 'language-' + @@lang.downcase
+    @code = stock.code
+    @html_url = stock.html_url
+  end
+
+  private
+  def hide_answer_lang(lang, code)
+    if lang.length != 1
+      code = code.gsub(/#{lang}/i, '???')
+    end
+    return code
   end
 end

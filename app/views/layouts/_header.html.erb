@@ -6,10 +6,15 @@
     <% else %>
         <%= link_to("GitHubApp", "/") %>
     <% end %>
+
     <ul class="nav navbar-nav navbar-right">
         <li>
         <%= link_to("クイズ", "/quiz") %>
         </li>
+        <li>
+        <%= link_to("占い", "/fortune_telling") %>
+        </li>
+
 
         <% if @current_user %>
         <li>    
