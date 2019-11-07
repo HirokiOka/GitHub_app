@@ -13,13 +13,13 @@ class HomeController < ApplicationController
   def quiz
     stock_length = Code.all.length
     stock = Code.find_by(id: rand(stock_length)+1)
-    @@lang = stock.language
-    @lang_class = 'language-' + @@lang.downcase
-    @code = hide_answer_lang(@@lang, stock.code)
+    session[:lang] = stock.language
+    @lang_class = 'language-' + stock.language.downcase
+    @code = hide_answer_lang(stock.language, stock.code)
   end
 
   def judge
-    if params[:answer] == @@lang
+    if params[:answer] == session[:lang]
       flash[:notice] = "正解です！"
       if @current_user
         flash[:notice] = "正解です！+10pt!"
@@ -28,8 +28,9 @@ class HomeController < ApplicationController
         @user.save
       end
     else
-      flash[:notice] = "正解は#{@@lang}でした！"
+      flash[:notice] = "正解は#{session[:lang]}でした！"
     end
+    session[:lang] = nil
     redirect_to("/quiz")
   end
 
