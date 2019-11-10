@@ -10,11 +10,7 @@
 <h2>
     <%= form_tag("/judge") do %>
         <p>回答</p>
-        <select name="answer">
-            <% @programming_lang.each do |lang| %>
-                <option name="<% lang %>"><%=lang %></option>
-            <% end %>
-        </select>
+        <input name="answer">
         <input type="submit" value="送信">
     <% end %>
 </h2>
