@@ -19,11 +19,11 @@ class HomeController < ApplicationController
     @code = hide_answer_lang(stock.language, stock.code)
   end
 
-  
+
   def judge
     if @current_user
       Answer.create(code_id: session[:code_id], user_id: @current_user.id, answer: params[:answer])
-      if params[:answer] == session[:lang]
+      if check_the_answer(params[:answer], session[:lang])
         flash[:notice] = "正解です！+10pt!"
         @user = User.find_by(id: @current_user.id)
         @user.score += 10
@@ -32,7 +32,7 @@ class HomeController < ApplicationController
         flash[:notice] = "正解は#{session[:lang]}でした！"
       end
     else
-      if params[:answer] == session[:lang]
+      if check_the_answer(params[:answer], session[:lang])
         flash[:notice] = "正解です！"
       else
         flash[:notice] = "正解は#{session[:lang]}でした！"
@@ -57,6 +57,10 @@ class HomeController < ApplicationController
     if lang.length != 1
       code = code.gsub(/#{lang}/i, '???')
     end
-    return code
+    code
+  end
+
+  def check_the_answer(answer, correct_answer)
+    answer.downcase == correct_answer.downcase
   end
 end
