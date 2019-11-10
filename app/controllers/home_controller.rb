@@ -17,6 +17,7 @@ class HomeController < ApplicationController
     session[:code_id] = stock.id
     @lang_class = 'language-' + stock.language.downcase
     @code = hide_answer_lang(stock.language, stock.code)
+    @accuracy_rate =  calc_accuracy_rate(stock)
   end
 
 
@@ -54,13 +55,21 @@ class HomeController < ApplicationController
 
   private
   def hide_answer_lang(lang, code)
-    if lang.length != 1
-      code = code.gsub(/#{lang}/i, '???')
-    end
-    code
+    (lang.length != 1) ? code.gsub(/#{lang}/i, '???') : code
   end
 
   def check_the_answer(answer, correct_answer)
     answer.downcase == correct_answer.downcase
+  end
+
+  def calc_accuracy_rate(code)
+    answers = code.answers
+    correct_answer_num = 0
+    answers.each do |answer|
+      if check_the_answer(answer.answer, code.language)
+        correct_answer_num += 1
+      end
+    end
+    answers.length == 0 ? 0 : (correct_answer_num / answers.length) * 100
   end
 end
