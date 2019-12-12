@@ -1,10 +1,11 @@
 
-
 <h1>今日の運勢</h1>
 <h2>あなたの今日の運勢を占うのはこのソースコード</h2>
+
 <h3><%= link_to("GitHubでみる", @html_url) %></h3>
+<p><%= @filename %>な一日</p>
 <p>
     <pre>
-        <code class="<%= @lang_class %>"><%= @code %></code>
+        <code id="code" class="language-javascript"><%= @code %></code>
     </pre>
 </p>

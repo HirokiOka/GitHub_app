@@ -23,7 +23,7 @@ class HomeController < ApplicationController
 
   def judge
     if @current_user
-      Answer.create(code_id: session[:code_id], user_id: @current_user.id, answer: params[:answer])
+      Answer.create(code_id: session[:code_id], user_id: @current_user.id, answer: params[:answer].downcase)
       if check_the_answer(params[:answer], session[:lang])
         flash[:notice] = "正解です！+10pt!"
         @user = User.find_by(id: @current_user.id)
@@ -44,13 +44,21 @@ class HomeController < ApplicationController
     redirect_to("/quiz")
   end
 
+  # def fortune_telling
+  #   stock_length = Code.all.length
+  #   stock = Code.find_by(id: rand(stock_length)+1)
+  #   @@lang = stock.language
+  #   @lang_class = 'language-' + @@lang.downcase
+  #   @code = stock.code
+  #   @html_url = stock.html_url
+  # end
+
   def fortune_telling
-    stock_length = Code.all.length
-    stock = Code.find_by(id: rand(stock_length)+1)
-    @@lang = stock.language
-    @lang_class = 'language-' + @@lang.downcase
-    @code = stock.code
-    @html_url = stock.html_url
+    stock_length = JsCode.all.length
+    jscode = JsCode.find_by(id: rand(stock_length)+1)
+    @filename = jscode.filename
+    @code = jscode.code
+    @link = jscode.html_url
   end
 
   private

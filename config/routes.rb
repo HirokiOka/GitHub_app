@@ -18,4 +18,5 @@ Rails.application.routes.draw do
   get '/quiz' => 'home#quiz'
   post '/judge' => 'home#judge'
   get '/fortune_telling' => 'home#fortune_telling'
+  get '/fortune_telling/new' => 'js_codes#new'
 end

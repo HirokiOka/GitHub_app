@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_10_001328) do
+ActiveRecord::Schema.define(version: 2019_12_12_010631) do
 
   create_table "answers", force: :cascade do |t|
     t.integer "code_id"
@@ -26,6 +26,14 @@ ActiveRecord::Schema.define(version: 2019_11_10_001328) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.text "html_url"
+  end
+
+  create_table "js_codes", force: :cascade do |t|
+    t.text "filename"
+    t.text "html_url"
+    t.text "code"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "users", force: :cascade do |t|

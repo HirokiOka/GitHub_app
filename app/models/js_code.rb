@@ -1,0 +1,2 @@
+class JsCode < ApplicationRecord
+end
