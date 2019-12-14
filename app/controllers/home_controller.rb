@@ -1,3 +1,5 @@
+require 'rkelly'
+
 class HomeController < ApplicationController
   before_action :forbid_login_user, {only: [:top]}
   before_action :forbid_login_user, {only: [:new, :create, :login_form, :login]}
@@ -44,21 +46,15 @@ class HomeController < ApplicationController
     redirect_to("/quiz")
   end
 
-  # def fortune_telling
-  #   stock_length = Code.all.length
-  #   stock = Code.find_by(id: rand(stock_length)+1)
-  #   @@lang = stock.language
-  #   @lang_class = 'language-' + @@lang.downcase
-  #   @code = stock.code
-  #   @html_url = stock.html_url
-  # end
-
   def fortune_telling
     stock_length = JsCode.all.length
     jscode = JsCode.find_by(id: rand(stock_length)+1)
-    @filename = jscode.filename
+    @filename = jscode.filename.gsub(".js", "")
     @code = jscode.code
     @link = jscode.html_url
+    ast = js_to_ast(@code)
+    @work_luck = calc_work_luck(count_function(ast))
+    @interpersonal_luck = calc_interpersonal_luck(calc_comments(ast.comments))
   end
 
   private
@@ -79,5 +75,57 @@ class HomeController < ApplicationController
       end
     end
     answers.length == 0 ? 0 : (correct_answer_num / answers.length) * 100
+  end
+
+  def js_to_ast(code)
+    parser = RKelly::Parser.new
+    parser.parse(code)
+  end
+
+  def calc_comments(comments)
+    sum = 0
+    comments.each do |comment|
+      comment = comment.to_s.gsub(" ", "").gsub("COMMENT:", "")
+      sum += comment.length
+    end
+    sum
+  end
+
+  def calc_interpersonal_luck(count)
+    if count < 100
+      "★☆☆☆☆"
+    elsif count < 200
+      "★★☆☆☆"
+    elsif count < 300
+      "★★★☆☆"
+    elsif count < 400
+      "★★★★☆"
+    else
+      "★★★★★"
+    end
+  end
+
+  def calc_work_luck(count)
+    if count < 1
+      "★☆☆☆☆"
+    elsif count < 2
+      "★★☆☆☆"
+    elsif count < 3
+      "★★★☆☆"
+    elsif count < 4
+      "★★★★☆"
+    else
+      "★★★★★"
+    end
+  end
+
+  def count_function(ast)
+    count = 0
+    ary = ast.to_sexp
+    ary.each do |item|
+      h = Hash[*item]
+      count += h.count { |k, _| k.to_s.include?("func_decl") }
+    end
+    count
   end
 end
