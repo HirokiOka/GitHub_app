@@ -120,6 +120,9 @@ class HomeController < ApplicationController
   end
 
   def count_function(ast)
+    if ast == nil
+      0
+    end
     count = 0
     ary = ast.to_sexp
     ary.each do |item|
