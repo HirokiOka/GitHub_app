@@ -8,6 +8,10 @@ gem 'rails', '~> 6.0.0'
 gem 'bootstrap-sass','3.4.1'
 gem 'rkelly-remix'
 
+gem 'omniauth'
+gem 'omniauth-twitter'
+gem 'dotenv-rails'
+
 # Use sqlite3 as the database for Active Record
 
 # Use Puma as the app server

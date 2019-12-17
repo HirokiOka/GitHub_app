@@ -25,6 +25,17 @@ class UsersController < ApplicationController
     end
   end
 
+  def create_via_twitter
+    @user = User.find_or_create_from_auth(request.env['omniauth.auth'])
+    if @user.save
+      session[:user_id] = @user.id
+      flash[:notice] = "ユーザー登録が完了しました．"
+      redirect_to("/users/#{@user.id}")
+    else
+      render("users/new")
+    end
+  end
+
   def edit
     @user = User.find_by(id: params[:id])
   end

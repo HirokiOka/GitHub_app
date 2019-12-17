@@ -19,4 +19,7 @@ Rails.application.routes.draw do
   post '/judge' => 'home#judge'
   get '/fortune_telling' => 'home#fortune_telling'
   get '/fortune_telling/new' => 'js_codes#new'
+
+  get 'auth/:provider/callback' => 'users#create_via_twitter'
+  root 'home#top'
 end

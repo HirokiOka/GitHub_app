@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_12_010631) do
+ActiveRecord::Schema.define(version: 2019_12_16_073706) do
 
   create_table "answers", force: :cascade do |t|
     t.integer "code_id"
@@ -44,6 +44,9 @@ ActiveRecord::Schema.define(version: 2019_12_12_010631) do
     t.string "password"
     t.integer "score", default: 0
     t.string "favorite_lang"
+    t.string "provider"
+    t.string "uid"
+    t.string "image_url"
   end
 
 end
