@@ -47,17 +47,44 @@ class HomeController < ApplicationController
   end
 
   def fortune_telling
-    stock_length = JsCode.all.length
-    jscode = JsCode.find_by(id: rand(stock_length)+1)
+    codes_length = JsCode.all.length
+    jscode = JsCode.find_by(id: rand(codes_length) + 1)
+
+    begin
+      ast = js_to_ast(@code)
+    rescue => error
+      ast = nil
+    end
+    
     @filename = jscode.filename.gsub(".js", "")
     @code = jscode.code
     @link = jscode.html_url
-    ast = js_to_ast(@code)
-    @work_luck = calc_work_luck(count_function(ast))
-    @interpersonal_luck = calc_interpersonal_luck(calc_comments(ast.comments))
+
+    if ast == nil
+      @work_luck = calc_work_luck(0)
+      @interpersonal_luck = calc_interpersonal_luck(0)
+    else
+      comments_rate = ast.comments.to_s.length * 100 / jscode.code.length
+      only_code_length = jscode.code.length - ast.comments.to_s.length
+      
+      cpf = count_function(ast) == 0 ? 0 : only_code_length / count_function(ast)
+      @work_luck = calc_work_luck(cpf)
+      @interpersonal_luck = calc_interpersonal_luck(comments_rate)
+    end
   end
 
   private
+
+  def choose_code()
+    codes_length = JsCode.all.length
+    codes_length.times do |_|
+      jscode = JsCode.find_by(id: rand(codes_length) + 1)
+      if js_to_ast(jscode.code) != nil
+        jscode
+      end
+    end
+  end
+
   def hide_answer_lang(lang, code)
     (lang.length != 1) ? code.gsub(/#{lang}/i, '???') : code
   end
@@ -91,31 +118,31 @@ class HomeController < ApplicationController
     sum
   end
 
-  def calc_interpersonal_luck(count)
-    if count < 100
+  def calc_interpersonal_luck(rate)
+    if rate < 20
       "★☆☆☆☆"
-    elsif count < 200
+    elsif rate < 30
       "★★☆☆☆"
-    elsif count < 300
+    elsif rate < 50
       "★★★☆☆"
-    elsif count < 400
+    elsif rate < 60
       "★★★★☆"
     else
       "★★★★★"
     end
   end
 
-  def calc_work_luck(count)
-    if count < 1
-      "★☆☆☆☆"
-    elsif count < 2
-      "★★☆☆☆"
-    elsif count < 3
-      "★★★☆☆"
-    elsif count < 4
-      "★★★★☆"
-    else
+  def calc_work_luck(cpf)
+    if cpf < 200 && 0 < cpf
       "★★★★★"
+    elsif cpf < 300
+      "★★★★☆"
+    elsif cpf < 400
+      "★★★☆☆"
+    elsif cpf < 500
+      "★★☆☆☆"
+    else
+      "★☆☆☆☆"
     end
   end
 

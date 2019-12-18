@@ -21,5 +21,6 @@ Rails.application.routes.draw do
   get '/fortune_telling/new' => 'js_codes#new'
 
   get 'auth/:provider/callback' => 'users#create_via_twitter'
+
   root 'home#top'
 end

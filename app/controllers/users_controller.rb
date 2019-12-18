@@ -29,7 +29,7 @@ class UsersController < ApplicationController
     @user = User.find_or_create_from_auth(request.env['omniauth.auth'])
     if @user.save
       session[:user_id] = @user.id
-      flash[:notice] = "ユーザー登録が完了しました．"
+      flash[:notice] = "ログインしました．"
       redirect_to("/users/#{@user.id}")
     else
       render("users/new")
@@ -70,6 +70,7 @@ class UsersController < ApplicationController
       render("users/login_form")
     end
   end
+
 
   def logout
     session[:user_id] = nil
