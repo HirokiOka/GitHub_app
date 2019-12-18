@@ -5,7 +5,7 @@ ruby '2.6.5'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.0.0'
-gem 'bootstrap-sass','3.4.1'
+gem 'bootstrap-sass'
 gem 'rkelly-remix'
 
 gem 'omniauth'

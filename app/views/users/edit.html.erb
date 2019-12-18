@@ -12,9 +12,9 @@
         <select name="favorite_lang">
             <% @programming_lang.each do |lang| %>
                 <% if lang == @user.favorite_lang %>
-                    <option name="<% lang %>" selected><%=lang %></option>
-                <%% else %>
-                    <option name="<% lang %>"><%=lang %></option>
+                    <option name="<%= lang %>" selected><%= lang %></option>
+                <% else %>
+                    <option name="<%= lang %>"><%= lang %></option>
                 <% end %>
             <% end %>
         </select>

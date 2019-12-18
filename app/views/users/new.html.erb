@@ -16,7 +16,7 @@
     <p>好きなプログラミング言語</p>
         <select name="favorite_lang">
             <% @programming_lang.each do |lang| %>
-                <option name="<% lang %>"><%=lang %></option>
+                <option name="<%= lang %>"><%= lang %></option>
             <% end %>
         </select>
         <input type="submit" value="新規登録">
