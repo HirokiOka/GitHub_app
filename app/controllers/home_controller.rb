@@ -55,19 +55,58 @@ class HomeController < ApplicationController
     @link = jscode.html_url
 
     if ast == nil
-      @work_luck = calc_work_luck(0)
-      @interpersonal_luck = calc_interpersonal_luck(0)
+      messages = ["nullの予感", "nullなことが起こるでしょう", "null"]
+      @work_luck = "★★☆☆☆"
+      @interpersonal_luck = "★★☆☆☆"
+      @message = messages[rand(messages.length)]
+    elsif ast == "SyntaxError"
+      @work_luck = "★☆☆☆☆"
+      @interpersonal_luck = "★☆☆☆☆"
+      @message = "注意！SyntaxErrorの予感！"
+
     else
+
       comments_rate = ast.comments.to_s.length * 100 / jscode.code.length
       only_code_length = jscode.code.length - ast.comments.to_s.length
       
       cpf = count_function(ast) == 0 ? 0 : only_code_length / count_function(ast)
       @work_luck = calc_work_luck(cpf)
       @interpersonal_luck = calc_interpersonal_luck(comments_rate)
+      @message = generate_message(@func_name)
     end
   end
 
   private
+
+  def generate_message(func_name)
+    if func_name != nil && func_name.length != 1
+      template = [
+        "#{func_name}するといいかも．",
+        "#{func_name}なことが起こりそう．",
+        "#{func_name}なところに出かけてみよう．",
+        "#{func_name}に注意．",
+        "たまには#{func_name}も必要．",
+        "今日は気分を変えて#{func_name}してみては．",
+        "経験したことのない#{func_name}に挑戦してみましょう．",
+        "気持ちを落ち着かせるためには，#{func_name}が必要"
+      ]
+      return template[rand(template.length)]
+    else
+      return "nullなことが起こるでしょう"
+    end
+  end
+
+
+  def get_func_name(ast)
+    func_names = []
+    arys = ast.to_sexp
+    arys.each do |ary|
+      h = Hash[*ary]
+      func_names.push(h[:func_decl]) if (h[:func_decl] != nil && h[:func_decl].length != 0)
+    end
+    return func_names[rand(func_names.length)]
+  end
+
 
   def choose_code()
     codes_length = JsCode.all.length
@@ -105,7 +144,7 @@ class HomeController < ApplicationController
     begin
       ast = parser.parse(code)
     rescue SyntaxError => e
-      ast = nil
+      ast = "SyntaxError"
     end
     ast
   end
@@ -134,7 +173,7 @@ class HomeController < ApplicationController
   end
 
   def calc_work_luck(cpf)
-    if cpf < 200 && 0 < cpf
+    if 0 < cpf && cpf < 200
       "★★★★★"
     elsif cpf < 300
       "★★★★☆"
