@@ -47,17 +47,11 @@ class HomeController < ApplicationController
   end
 
   def fortune_telling
-    codes_length = JsCode.all.length
-    jscode = JsCode.find_by(id: rand(codes_length) + 1)
-
-    begin
-      ast = js_to_ast(@code)
-    rescue => error
-      ast = nil
-    end
+    jscode = choose_code()
+    @code = jscode.code
+    ast = js_to_ast(@code)
     
     @filename = jscode.filename.gsub(".js", "")
-    @code = jscode.code
     @link = jscode.html_url
 
     if ast == nil
@@ -77,12 +71,13 @@ class HomeController < ApplicationController
 
   def choose_code()
     codes_length = JsCode.all.length
-    codes_length.times do |_|
+    codes_length.times do
       jscode = JsCode.find_by(id: rand(codes_length) + 1)
-      if js_to_ast(jscode.code) != nil
-        jscode
+      if !jscode.filename.include?("untrusted")
+        return jscode
       end
     end
+    nil
   end
 
   def hide_answer_lang(lang, code)
@@ -106,7 +101,13 @@ class HomeController < ApplicationController
 
   def js_to_ast(code)
     parser = RKelly::Parser.new
-    parser.parse(code)
+    ast = ""
+    begin
+      ast = parser.parse(code)
+    rescue SyntaxError => e
+      ast = nil
+    end
+    ast
   end
 
   def calc_comments(comments)

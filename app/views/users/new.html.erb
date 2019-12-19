@@ -1,25 +1,27 @@
-<h1>新規ユーザー登録</h1>
+<div class="jumbotron">
+    <h1>新規ユーザー登録</h1>
 
-<% @user.errors.full_messages.each do |message| %>
-    <%= message %>
-<% end %>
+    <% @user.errors.full_messages.each do |message| %>
+        <%= message %>
+    <% end %>
 
-<%= render 'layouts/lang', programming_lang: @programming_lang %>
+    <%= render 'layouts/lang', programming_lang: @programming_lang %>
 
-<%= form_tag("/users/create") do %>
-    <p>ユーザー名<strong style="color: red;">*</strong></p>
-        <input name="name" value="<%= @user.name %>">
-    <p>メールアドレス</p>
-        <input name="email" value="<%= @user.email %>">
-    <p>パスワード<strong style="color: red;">*</strong></p>
-        <input name="password" type="password" value="<% @user.password %>">
-    <p>好きなプログラミング言語</p>
-        <select name="favorite_lang">
-            <% @programming_lang.each do |lang| %>
-                <option name="<%= lang %>"><%= lang %></option>
-            <% end %>
-        </select>
-        <input type="submit" value="新規登録">
-<% end %>
+    <%= form_tag("/users/create") do %>
+        <p>ユーザー名<strong style="color: red;">*</strong></p>
+            <input name="name" value="<%= @user.name %>">
+        <p>メールアドレス</p>
+            <input name="email" value="<%= @user.email %>">
+        <p>パスワード<strong style="color: red;">*</strong></p>
+            <input name="password" type="password" value="<% @user.password %>">
+        <p>好きなプログラミング言語</p>
+            <select name="favorite_lang">
+                <% @programming_lang.each do |lang| %>
+                    <option name="<%= lang %>"><%= lang %></option>
+                <% end %>
+            </select>
+            <input type="submit" value="新規登録">
+    <% end %>
 
-<%= link_to 'Twitterでログイン', 'auth/twitter' %>
+    <%= link_to "Twitterでログイン", 'auth/twitter', class: "btn btn-lg btn-primary" %>
+</div>

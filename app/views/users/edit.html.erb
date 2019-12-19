@@ -1,23 +1,25 @@
 
-<h1>ユーザー情報の編集</h1>
-<%= form_tag("/users/#{@user.id}/update") do %>
+<div class="jumbotron">
+    <h1>ユーザー情報の編集</h1>
+    <%= form_tag("/users/#{@user.id}/update") do %>
 
-<%= render 'layouts/lang', programming_lang: @programming_lang %>
+    <%= render 'layouts/lang', programming_lang: @programming_lang %>
 
-    <p>ユーザー名</p>
-    <input name="name" value="<%= @user.name %>">
-    <p>メールアドレス</p>
-    <input name="email" value="<%= @user.email %>">
-    <p>好きなプログラミング言語</p>
-        <select name="favorite_lang">
-            <% @programming_lang.each do |lang| %>
-                <% if lang == @user.favorite_lang %>
-                    <option name="<%= lang %>" selected><%= lang %></option>
-                <% else %>
-                    <option name="<%= lang %>"><%= lang %></option>
+        <p>ユーザー名</p>
+        <input name="name" value="<%= @user.name %>">
+        <p>メールアドレス</p>
+        <input name="email" value="<%= @user.email %>">
+        <p>好きなプログラミング言語</p>
+            <select name="favorite_lang">
+                <% @programming_lang.each do |lang| %>
+                    <% if lang == @user.favorite_lang %>
+                        <option name="<%= lang %>" selected><%= lang %></option>
+                    <% else %>
+                        <option name="<%= lang %>"><%= lang %></option>
+                    <% end %>
                 <% end %>
-            <% end %>
-        </select>
-    <input type="submit" value="保存">
-<% end %>
+            </select>
+        <input type="submit" value="保存">
+    <% end %>
+</div>
     

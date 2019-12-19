@@ -1,14 +1,15 @@
+<div class="jumbotron">
+    <h1>ログイン</h1>
+        <% if @error_message %>
+            <%= @error_message %>
+        <% end %>
+        <%= form_tag("/login") do%>
+            <p>ユーザー名</p>
+            <input name="name" value="<% @name %>">
+            <p>パスワード</p>
+            <input name="password" type="password" value="<%= @password %>">
+            <input type="submit" value="ログイン">
+        <% end %>
 
-<h1>ログイン</h1>
-    <% if @error_message %>
-        <%= @error_message %>
-    <% end %>
-    <%= form_tag("/login") do%>
-        <p>ユーザー名</p>
-        <input name="name" value="<% @name %>">
-        <p>パスワード</p>
-        <input name="password" type="password" value="<%= @password %>">
-        <input type="submit" value="ログイン">
-    <% end %>
-
-<%= link_to 'Twitterでログイン', 'auth/twitter' %>
+    <%= link_to "Twitterでログイン", 'auth/twitter', class: "btn btn-lg btn-primary" %>
+</div>
