@@ -7,11 +7,11 @@
 <%= render 'layouts/lang', programming_lang: @programming_lang %>
 
 <%= form_tag("/users/create") do %>
-    <p>ユーザー名</p>
+    <p>ユーザー名<strong style="color: red;">*</strong></p>
         <input name="name" value="<%= @user.name %>">
     <p>メールアドレス</p>
         <input name="email" value="<%= @user.email %>">
-    <p>パスワード</p>
+    <p>パスワード<strong style="color: red;">*</strong></p>
         <input name="password" type="password" value="<% @user.password %>">
     <p>好きなプログラミング言語</p>
         <select name="favorite_lang">

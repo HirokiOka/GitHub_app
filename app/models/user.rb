@@ -1,6 +1,6 @@
 class User < ApplicationRecord
     validates :name, {presence: true}
-    validates :email, {uniqueness: true, presence: true}
+    # validates :email, {uniqueness: true, presence: true}
     validates :password, {presence: true}
     has_many :answers
 
@@ -9,12 +9,12 @@ class User < ApplicationRecord
         provider = auth[:provider]
         uid = auth[:uid]
         nickname = auth[:info][:nickname]
-        email = User.dummy_email(auth)
+        # email = User.dummy_email(auth)
         password = User.dummy_password()
 
         self.find_or_create_by(provider: provider, uid: uid) do |user|
             user.name = nickname
-            user.email = email
+            # user.email = email
             user.password = password
         end
     end
