@@ -55,7 +55,7 @@ class HomeController < ApplicationController
     @link = jscode.html_url
 
     if ast == nil
-      messages = ["nullの予感", "nullなことが起こるでしょう", "null", "気持ちを落ち着かせるためには、睡眠が必須","苦手な仕事や、面倒な作業こそ先に片付けてしまいましょう","たまには息抜きも必要"]
+      messages = ["睡眠をとりましょう", "散歩に出かけてみましょう", "nullの予感", "気持ちを落ち着かせるためには、睡眠が必須","苦手な仕事や、面倒な作業こそ先に片付けてしまいましょう","たまには息抜きも必要"]
       @work_luck = "★★☆☆☆"
       @interpersonal_luck = "★★☆☆☆"
       @message = messages[rand(messages.length)]
