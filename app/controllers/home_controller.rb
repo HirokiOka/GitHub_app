@@ -19,7 +19,7 @@ class HomeController < ApplicationController
     session[:code_id] = stock.id
     @lang_class = 'language-' + stock.language.downcase
     @code = hide_answer_lang(stock.language, stock.code)
-    @accuracy_rate =  calc_accuracy_rate(stock)
+    @accuracy_rate = calc_accuracy_rate(stock)
   end
 
 
@@ -55,7 +55,7 @@ class HomeController < ApplicationController
     @link = jscode.html_url
 
     if ast == nil
-      messages = ["nullの予感", "nullなことが起こるでしょう", "null"]
+      messages = ["nullの予感", "nullなことが起こるでしょう", "null", "気持ちを落ち着かせるためには、睡眠が必須","苦手な仕事や、面倒な作業こそ先に片付けてしまいましょう","たまには息抜きも必要"]
       @work_luck = "★★☆☆☆"
       @interpersonal_luck = "★★☆☆☆"
       @message = messages[rand(messages.length)]
@@ -72,14 +72,13 @@ class HomeController < ApplicationController
       cpf = count_function(ast) == 0 ? 0 : only_code_length / count_function(ast)
       @work_luck = calc_work_luck(cpf)
       @interpersonal_luck = calc_interpersonal_luck(comments_rate)
-      @message = generate_message(@func_name)
+      @message = generate_message(get_func_name(ast))
     end
   end
 
   private
 
   def generate_message(func_name)
-    if func_name != nil && func_name.length != 1
       template = [
         "#{func_name}するといいかも．",
         "#{func_name}なことが起こりそう．",
@@ -91,9 +90,6 @@ class HomeController < ApplicationController
         "気持ちを落ち着かせるためには，#{func_name}が必要"
       ]
       return template[rand(template.length)]
-    else
-      return "nullなことが起こるでしょう"
-    end
   end
 
 
@@ -104,7 +100,12 @@ class HomeController < ApplicationController
       h = Hash[*ary]
       func_names.push(h[:func_decl]) if (h[:func_decl] != nil && h[:func_decl].length != 0)
     end
-    return func_names[rand(func_names.length)]
+    func_name = func_names[rand(func_names.length)]
+    if func_name == nil
+      return "anonymous"
+    else
+      return func_name
+    end
   end
 
 

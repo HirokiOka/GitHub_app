@@ -8,7 +8,7 @@
 <p>対人運：<%= @interpersonal_luck %></p>
 <p>メッセージ：<%= @message %></p>
 
-<% data_text = "今日のコード占い：#{@filename}な1日\n仕事運：#{@work_luck}対人運：#{@interpersonal_luck}" %>
+<% data_text = "今日のコード占い：仕事運：#{@work_luck}対人運：#{@interpersonal_luck}" %>
 
 <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-text=<%= data_text %> data-show-count="false">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
