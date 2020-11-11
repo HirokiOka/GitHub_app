@@ -66,13 +66,20 @@ class HomeController < ApplicationController
 
     else
 
-      comments_rate = ast.comments.to_s.length * 100 / jscode.code.length
-      only_code_length = jscode.code.length - ast.comments.to_s.length
+      # comments_rate = ast.comments.to_s.length * 100 / jscode.code.length
+      # only_code_length = jscode.code.length - ast.comments.to_s.length
       
-      cpf = count_function(ast) == 0 ? 0 : only_code_length / count_function(ast)
-      @work_luck = calc_work_luck(cpf)
-      @interpersonal_luck = calc_interpersonal_luck(comments_rate)
+      # cpf = count_function(ast) == 0 ? 0 : only_code_length / count_function(ast)
+      # @work_luck = calc_work_luck(cpf)
+      # @interpersonal_luck = calc_interpersonal_luck(comments_rate)
+      # @message = generate_message(get_func_name(ast))
+
+      comments_length = ast.comments.to_s.length
+      func_num = count_function(ast)
+      @work_luck = calc_interpersonal_luck_by_number(comments_length)
+      @interpersonal_luck = clac_work_luck_by_number(func_num)
       @message = generate_message(get_func_name(ast))
+
     end
   end
 
@@ -159,6 +166,19 @@ class HomeController < ApplicationController
     sum
   end
 
+  def count_function(ast)
+    if ast == nil
+      0
+    end
+    count = 0
+    ary = ast.to_sexp
+    ary.each do |item|
+      h = Hash[*item]
+      count += h.count { |k, _| k.to_s.include?("func_decl") }
+    end
+    count
+  end
+
   def calc_interpersonal_luck(rate)
     if rate < 20
       "★☆☆☆☆"
@@ -174,7 +194,9 @@ class HomeController < ApplicationController
   end
 
   def calc_work_luck(cpf)
-    if 0 < cpf && cpf < 200
+    if cpf == 0
+      "★☆☆☆☆"
+    elsif cpf < 200
       "★★★★★"
     elsif cpf < 300
       "★★★★☆"
@@ -187,16 +209,33 @@ class HomeController < ApplicationController
     end
   end
 
-  def count_function(ast)
-    if ast == nil
-      0
+
+  def calc_interpersonal_luck_by_number(comments_length)
+    if comments_length < 30
+      "★☆☆☆☆"
+    elsif comments_length < 50
+      "★★☆☆☆"
+    elsif comments_length < 100
+      "★★★☆☆"
+    elsif comments_length < 150
+      "★★★★☆"
+    else
+      "★★★★★"
     end
-    count = 0
-    ary = ast.to_sexp
-    ary.each do |item|
-      h = Hash[*item]
-      count += h.count { |k, _| k.to_s.include?("func_decl") }
-    end
-    count
   end
+
+  def clac_work_luck_by_number(func_num)
+    if func_num < 1
+      "★☆☆☆☆"
+    elsif func_num < 2
+      "★★☆☆☆"
+    elsif func_num < 3
+      "★★★☆☆"
+    elsif func_num < 4
+      "★★★★☆"
+    else
+      "★★★★★"
+    end
+  end
+
 end
